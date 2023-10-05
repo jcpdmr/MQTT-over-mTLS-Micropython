@@ -51,11 +51,11 @@ class ControlBoards():
     def display_menu(self, editing=False):
         oled.fill(0)
         oled.text(self.selection_list[self.current_selection], 0, 0)
-        oled.text("Read value : " + str(self.selection_dict[self.selection_list[self.current_selection]][0]), 0, 25)
+        oled.text("Read: " + str(self.selection_dict[self.selection_list[self.current_selection]][0]), 0, 25)
         if editing:
-            oled.text("Target value : " + str(self.selection_dict[self.selection_list[self.current_selection]][1]) + "<---", 0, 50)
+            oled.text("Target: " + str(self.selection_dict[self.selection_list[self.current_selection]][1]) + "<---", 0, 50)
         else:
-            oled.text("Target value : " + str(self.selection_dict[self.selection_list[self.current_selection]][1]), 0, 50)
+            oled.text("Target: " + str(self.selection_dict[self.selection_list[self.current_selection]][1]), 0, 50)
         oled.show()
 
     def handle_long_press_selection(self, _):
