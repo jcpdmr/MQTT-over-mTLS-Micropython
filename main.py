@@ -38,14 +38,29 @@ class ControlBoards():
 
         # State variables
         self.editing_mode = False
-        self.current_selection = 0
         self.selection_list = options
+        self.current_selection = 0
+        self.selection_dict = {}
+        for option in self.selection_list:
+            # read value and set value 10 by default
+            self.selection_dict[option] = [10,10]   
+        
+        # start screen
+        self.display_menu()
+
+    def display_menu(self, editing=False):
+        oled.fill(0)
+        oled.text(self.selection_list[self.current_selection], 0, 0)
+        oled.text("Read value : " + str(self.selection_dict[self.selection_list[self.current_selection]][0]), 0, 25)
+        if editing:
+            oled.text("Target value : " + str(self.selection_dict[self.selection_list[self.current_selection]][1]) + "<---", 0, 50)
+        else:
+            oled.text("Target value : " + str(self.selection_dict[self.selection_list[self.current_selection]][1]), 0, 50)
+        oled.show()
 
     def handle_long_press_selection(self, _):
         print("Editing mode")
-        oled.fill(0)
-        oled.text("Editing mode", 0, 0)
-        oled.show()
+        self.display_menu(editing=True)
         
     def handle_short_press_selection(self, setting_mode=False):
         if setting_mode:
@@ -53,33 +68,27 @@ class ControlBoards():
         else:
             self.current_selection = (self.current_selection + 1) % len(self.selection_list)    
         print(self.selection_list[self.current_selection])
-        oled.fill(0)
-        oled.text(self.selection_list[self.current_selection], 0, 0)
-        oled.show()
+        self.display_menu(editing=False)
     
     def handle_long_press_right(self, _):
         print("right ++")
-        oled.fill(0)
-        oled.text("right ++", 0, 0)
-        oled.show()
+        self.selection_dict[self.selection_list[self.current_selection]][1] += 5
+        self.display_menu(editing=True)
         
     def handle_short_press_right(self, _):
         print("right +")
-        oled.fill(0)
-        oled.text("right +", 0, 0)
-        oled.show()
+        self.selection_dict[self.selection_list[self.current_selection]][1] += 1
+        self.display_menu(editing=True)
 
     def handle_long_press_left(self, _):
         print("left ++")
-        oled.fill(0)
-        oled.text("left ++", 0, 0)
-        oled.show()
+        self.selection_dict[self.selection_list[self.current_selection]][1] -= 5
+        self.display_menu(editing=True)
         
     def handle_short_press_left(self, _):
         print("left +")
-        oled.fill(0)
-        oled.text("left +", 0, 0)
-        oled.show()
+        self.selection_dict[self.selection_list[self.current_selection]][1] -= 1
+        self.display_menu(editing=True)
 
     def check_buttons(self, t):
         # ISR called by self.tim every period
@@ -117,12 +126,7 @@ def test3():
     my_pins = [Pin(36, Pin.IN), 
                Pin(38, Pin.IN), 
                Pin(37, Pin.IN)]
-    my_options = ["Opt1", "Opt2", "Opt3"]
-
-    print(my_options[0])
-    oled.fill(0)
-    oled.text(my_options[0], 0, 0)
-    oled.show()
+    my_options = ["Temperature", "Rpm", "Current"]
 
     my_control_board = ControlBoards(button_pins=my_pins, options=my_options)
     time.sleep(20)
