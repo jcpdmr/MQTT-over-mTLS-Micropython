@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head><title>MicroPython Button Control</title></head>
+<body>
+<h1>MicroPython Button Control</h1>
+<button onclick="toggleLed()">Toggle LED</button>
+<script>
+function toggleLed() {
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "/toggle", true);
+    xhr.send();
+}
+</script>
+</body>
+</html>
