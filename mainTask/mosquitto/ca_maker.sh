@@ -108,7 +108,8 @@ $algorithm $pkeyopt \
 -out $mosquitto_dir/certs/server/server_key.pem
 
 # Create the certificate signing request (CSR)
-openssl req -new -subj "/CN=MQTT Server" \
+# openssl req -new -subj "/CN=MQTT Server" \
+openssl req -new -subj "/CN=192.168.1.22" \
 -addext "subjectAltName = ${subjectAltName}" \
 -nodes -key $mosquitto_dir/certs/server/server_key.pem -out $mosquitto_dir/certs/server/server_req.csr
 

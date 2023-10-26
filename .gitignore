@@ -2,3 +2,4 @@
 loader.sh 
 wifi.conf
 certs
+mosquitto.db
