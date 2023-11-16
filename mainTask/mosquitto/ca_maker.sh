@@ -5,7 +5,7 @@
 # the CA Cert in DER for use in clients such as the Pico W
 
 # You will probably need to change this for your system
-mosquitto_dir="./"
+mosquitto_dir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 # Note: Pico W can use EC or RSA keys only, not EC25519, and Tasmota can only use 2048 bit RSA keys.
 
@@ -27,7 +27,8 @@ encryption=''
 # Use as many unique names as you need, in the format DNS.1, DNS.2, DNS.3, IP.1, IP.2 etc.
 
 # subjectAltName='DNS.1:server_name,DNS.2:server_name.example.com,DNS.3:192.168.1.1,IP.1:192.168.1.1'
-subjectAltName='DNS.1:192.168.1.22,IP.1:192.168.1.22'
+subject_cn='192.168.1.10'
+subjectAltName="DNS.1:${subject_cn},IP.1:${subject_cn}"
 
 # NOTE: If you need to create one or more client Keys and Certs in either PEM or DER format,
 # you can call the 'client_maker' script one or more times at the bottom of this script, so 
@@ -109,14 +110,16 @@ $algorithm $pkeyopt \
 
 # Create the certificate signing request (CSR)
 # openssl req -new -subj "/CN=MQTT Server" \
-openssl req -new -subj "/CN=192.168.1.22" \
+openssl req -new -subj "/CN=${subject_cn}" \
 -addext "subjectAltName = ${subjectAltName}" \
 -nodes -key $mosquitto_dir/certs/server/server_key.pem -out $mosquitto_dir/certs/server/server_req.csr
 
 # Sign and authenticate it with the CA
 # We use copy_extensions to include the subjectAltNames from the CSR in the Server Cert
-openssl x509 -req -in $mosquitto_dir/certs/server/server_req.csr -copy_extensions copy -CA $mosquitto_dir/certs/CA/ca_crt.pem -CAkey $mosquitto_dir/certs/CA/ca_key.pem \
--CAcreateserial -days 365 -outform pem -out $mosquitto_dir/certs/server/server_crt.pem
+#openssl x509 -req -in $mosquitto_dir/certs/server/server_req.csr -copy_extensions copy -CA $mosquitto_dir/certs/CA/ca_crt.pem -CAkey $mosquitto_dir/certs/CA/ca_key.pem -CAcreateserial -days 365 -outform pem -out $mosquitto_dir/certs/server/server_crt.pem
+
+openssl x509 -req -in $mosquitto_dir/certs/server/server_req.csr -CA $mosquitto_dir/certs/CA/ca_crt.pem -CAkey $mosquitto_dir/certs/CA/ca_key.pem -CAcreateserial -days 365 -outform pem -out $mosquitto_dir/certs/server/server_crt.pem
+
 
 
 ###########################################################

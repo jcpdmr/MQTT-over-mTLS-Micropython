@@ -10,7 +10,7 @@ import network
 sta_if = network.WLAN(network.STA_IF)
 sta_if.active(False)
 sta_if.active(True)
-with open("./micropython_scripts/wifi.conf") as f:
+with open("./wifi.conf") as f:
     wifi_ssid = f.readline().split("=")[1].strip()
     wifi_ssid = wifi_ssid.strip('"')
     wifi_psw = f.readline().split("=")[1].strip()
@@ -19,7 +19,7 @@ with open("./micropython_scripts/wifi.conf") as f:
 
 sta_if.connect(wifi_ssid, wifi_psw)
 
-server='192.168.1.22'      # this has to match the MQTT server CN or SAN credentials in server_crt.pem
+server='192.168.1.10'      # this has to match the MQTT server CN or SAN credentials in server_crt.pem
 server_port=8883
 server_keepalive=60     # if you don't include a keepalive nothing works.
 mqtt_topic='test/topic01'
@@ -30,17 +30,17 @@ local_client_name='client1'
 
 
 
-with open('./mosquitto/certs/CA/ca_crt.der', 'rb') as f:
+with open('./certs/ca_crt.der', 'rb') as f:
     ca_data = f.read()
 f.close()
 print('Read CA Certificate... OK')
 
-with open('./mosquitto/certs/clients/user1/user1_crt.der', 'rb') as f:
+with open('./certs/esp_crt.der', 'rb') as f:
     user_cert = f.read()
 f.close()
 print('Read User Certificate... OK')
 
-with open('./mosquitto/certs/clients/user1/user1_key.der', 'rb') as f:
+with open('./certs/esp_key.der', 'rb') as f:
     user_key = f.read()
 f.close()
 print('Read User Key... OK')

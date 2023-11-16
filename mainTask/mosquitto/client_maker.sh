@@ -5,7 +5,7 @@
 # The script WILL NOT DELETE ANYTHING - it just renames any certs dir that it finds
 
 # You will probably need to change this for your system
-mosquitto_dir="./"
+mosquitto_dir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 # Note: Pico W can use EC or RSA keys only, not EC25519, and Tasmota can only use 2048 bit RSA keys.
 
@@ -66,8 +66,14 @@ fi
 # if our user certs dir already exists, rename it so we don't overwrite anything important
 # but if it doesn't, then redirect the 'No such file or directory' error to null
 time_stamp=$(date +"%Y-%m-%d_%H-%M")
-mv $mosquitto_dir/certs/csr_files/$2_req.csr $mosquitto_dir/certs/clients/$2 2>/dev/null
-mv $mosquitto_dir/certs/clients/$2 $mosquitto_dir/certs/clients/$2-$time_stamp 2>/dev/null
+if [ -d "$mosquitto_dir/certs/clients/$2" ]; then
+  if [ ! -d "$mosquitto_dir/certs/old_clients" ]; then
+    mkdir $mosquitto_dir/certs/old_clients
+  elif [ -d "$mosquitto_dir/certs/old_clients/$2" ]; then
+    rm -r $mosquitto_dir/certs/old_clients/$2
+  fi
+  mv $mosquitto_dir/certs/clients/$2 $mosquitto_dir/certs/old_clients/
+fi
 
 mkdir -p $mosquitto_dir/certs/clients/$2
 
@@ -135,7 +141,7 @@ printf '\n\n'
 chmod 644 $mosquitto_dir/certs/clients/$2/$2_key.$format_type
 
 #clean up after the client cert creation
-mv $mosquitto_dir/certs/clients/$2/$2_req.csr $mosquitto_dir/certs/csr_files
+mv -f $mosquitto_dir/certs/clients/$2/$2_req.csr $mosquitto_dir/certs/csr_files
 
 # copy ca_crt.{der,pem} in the required format to the new client dir
 cp $mosquitto_dir/certs/clients/ca_crt.$format_type $mosquitto_dir/certs/clients/$2
