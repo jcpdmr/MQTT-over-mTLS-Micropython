@@ -23,11 +23,10 @@ fi
 
 cp $root_dir/mosquitto/certs/clients/$1/${1}_crt.der $root_dir/micropython_data/certs/esp_crt.der
 cp $root_dir/mosquitto/certs/clients/$1/${1}_key.der $root_dir/micropython_data/certs/esp_key.der
-cp $root_dir/mosquitto/certs/clients/$1/ca_crt.der $root_dir/micropython_data/certs/ca_crt.der
+cp $root_dir/mosquitto/certs/CA/ca_crt.der $root_dir/micropython_data/certs/ca_crt.der
 
-#MAC EXAMPLE: /dev/tty.usbserial-0001 or LINUX EXAMPLE: /dev/ttyUSB0
-#python3 -m mpremote connect $2 reset
-python3 -m mpremote connect /dev/tty.usbserial-0001 reset 
+#Connection
+python3 -m mpremote reset 
 python3 -m mpremote run $root_dir/reset.py
 python3 -m mpremote mkdir ./certs
 python3 -m mpremote cp $root_dir/micropython_data/certs/esp_crt.der :certs/
@@ -39,6 +38,3 @@ python3 -m mpremote cp $root_dir/micropython_data/main.py :
 python3 -m mpremote cp $root_dir/micropython_data/wifi.conf :
 
 python3 -m mpremote ls
-
-
-

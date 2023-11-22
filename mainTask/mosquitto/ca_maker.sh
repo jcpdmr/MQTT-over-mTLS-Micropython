@@ -28,6 +28,7 @@ encryption=''
 
 # subjectAltName='DNS.1:server_name,DNS.2:server_name.example.com,DNS.3:192.168.1.1,IP.1:192.168.1.1'
 subject_cn='192.168.1.10'
+#subjectAltName="DNS.1:${subject_cn},IP.1:${subject_cn}"
 subjectAltName="DNS.1:${subject_cn},IP.1:${subject_cn}"
 
 # NOTE: If you need to create one or more client Keys and Certs in either PEM or DER format,
@@ -110,7 +111,7 @@ $algorithm $pkeyopt \
 
 # Create the certificate signing request (CSR)
 # openssl req -new -subj "/CN=MQTT Server" \
-openssl req -new -subj "/CN=${subject_cn}" \
+openssl req -new -subj "/CN=192.168.1.10" \
 -addext "subjectAltName = ${subjectAltName}" \
 -nodes -key $mosquitto_dir/certs/server/server_key.pem -out $mosquitto_dir/certs/server/server_req.csr
 

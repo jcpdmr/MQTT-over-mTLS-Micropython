@@ -5,7 +5,6 @@ import utime
 import network
 
 
-
 # wifi connection
 sta_if = network.WLAN(network.STA_IF)
 sta_if.active(False)
@@ -16,8 +15,13 @@ with open("./wifi.conf") as f:
     wifi_psw = f.readline().split("=")[1].strip()
     wifi_psw = wifi_psw.strip('"')
 
+print('Read Wifi Config... OK')
 
 sta_if.connect(wifi_ssid, wifi_psw)
+if(sta_if.isconnected()):
+    print('Wifi Connection... OK')
+else:
+    print('Wifi Connection... ERROR')
 
 server='192.168.1.10'      # this has to match the MQTT server CN or SAN credentials in server_crt.pem
 server_port=8883
@@ -27,7 +31,6 @@ local_client_name='client1'
 
 # This uses the CA cert, along with a user key & cert
 # TLS certs & keys need to be in DER format on the Pico W
-
 
 
 with open('./certs/ca_crt.der', 'rb') as f:
