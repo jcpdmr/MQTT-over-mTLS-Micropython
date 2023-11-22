@@ -11,5 +11,3 @@ esp.osdebug(None)
 
 import gc
 gc.collect()
-
-import main

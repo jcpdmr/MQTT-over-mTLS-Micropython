@@ -18,12 +18,15 @@ with open("./wifi.conf") as f:
 print('Read Wifi Config... OK')
 
 sta_if.connect(wifi_ssid, wifi_psw)
+
+utime.sleep(2)
+
 if(sta_if.isconnected()):
     print('Wifi Connection... OK')
 else:
     print('Wifi Connection... ERROR')
 
-server='192.168.1.10'      # this has to match the MQTT server CN or SAN credentials in server_crt.pem
+server='192.168.1.22'      # this has to match the MQTT server CN or SAN credentials in server_crt.pem
 server_port=8883
 server_keepalive=60     # if you don't include a keepalive nothing works.
 mqtt_topic='test/topic01'
