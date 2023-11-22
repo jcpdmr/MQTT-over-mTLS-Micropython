@@ -27,7 +27,7 @@ encryption=''
 # Use as many unique names as you need, in the format DNS.1, DNS.2, DNS.3, IP.1, IP.2 etc.
 
 # subjectAltName='DNS.1:server_name,DNS.2:server_name.example.com,DNS.3:192.168.1.1,IP.1:192.168.1.1'
-subject_cn='192.168.1.10'
+subject_cn='192.168.1.22'
 #subjectAltName="DNS.1:${subject_cn},IP.1:${subject_cn}"
 subjectAltName="DNS.1:${subject_cn},IP.1:${subject_cn}"
 
@@ -111,7 +111,7 @@ $algorithm $pkeyopt \
 
 # Create the certificate signing request (CSR)
 # openssl req -new -subj "/CN=MQTT Server" \
-openssl req -new -subj "/CN=192.168.1.10" \
+openssl req -new -subj "/CN=${subject_cn}" \
 -addext "subjectAltName = ${subjectAltName}" \
 -nodes -key $mosquitto_dir/certs/server/server_key.pem -out $mosquitto_dir/certs/server/server_req.csr
 
