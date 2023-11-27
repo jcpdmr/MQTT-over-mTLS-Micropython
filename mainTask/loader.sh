@@ -2,8 +2,8 @@
 
 root_dir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-if  [ ! -f "$root_dir/mosquitto/certs/clients/$1/ca_crt.der" ]; then 
-    echo "$root_dir/mosquitto/certs/clients/$1/ca_crt.der not found"
+if  [ ! -f "$root_dir/mosquitto/certs/CA/ca_crt.der" ]; then 
+    echo "$root_dir/mosquitto/certs/CA/ca_crt.der not found"
     exit
 fi
 if [ ! -f "$root_dir/mosquitto/certs/clients/$1/${1}_crt.der" ]; then 
