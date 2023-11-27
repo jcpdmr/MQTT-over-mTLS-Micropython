@@ -110,15 +110,11 @@ $algorithm $pkeyopt \
 -out $mosquitto_dir/certs/server/server_key.pem
 
 # Create the certificate signing request (CSR)
-# openssl req -new -subj "/CN=MQTT Server" \
 openssl req -new -subj "/CN=${subject_cn}" \
 -addext "subjectAltName = ${subjectAltName}" \
 -nodes -key $mosquitto_dir/certs/server/server_key.pem -out $mosquitto_dir/certs/server/server_req.csr
 
 # Sign and authenticate it with the CA
-# We use copy_extensions to include the subjectAltNames from the CSR in the Server Cert
-#openssl x509 -req -in $mosquitto_dir/certs/server/server_req.csr -copy_extensions copy -CA $mosquitto_dir/certs/CA/ca_crt.pem -CAkey $mosquitto_dir/certs/CA/ca_key.pem -CAcreateserial -days 365 -outform pem -out $mosquitto_dir/certs/server/server_crt.pem
-
 openssl x509 -req -in $mosquitto_dir/certs/server/server_req.csr -CA $mosquitto_dir/certs/CA/ca_crt.pem -CAkey $mosquitto_dir/certs/CA/ca_key.pem -CAcreateserial -days 365 -outform pem -out $mosquitto_dir/certs/server/server_crt.pem
 
 
