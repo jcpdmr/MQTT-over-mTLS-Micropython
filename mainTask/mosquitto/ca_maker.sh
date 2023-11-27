@@ -157,16 +157,3 @@ cp $mosquitto_dir/certs/CA/ca_crt.pem $mosquitto_dir/certs/clients
 
 # We also need to give read access to server_key.pem so it can be used by Mosquitto
 chmod 644 $mosquitto_dir/certs/server/server_key.pem
-
-
-# move the ca_maker script to certs/CA  and remove its execute permissions
-# to reduce the probability of running it by accident again
-# and overwriting everything in your certs directory
-#mv $mosquitto_dir/ca_maker $mosquitto_dir/certs/CA/ca_maker
-#chmod -x $mosquitto_dir/certs/CA/ca_maker
-
-# auto run the client_maker pem/der username
-#client_maker pem user1
-#client_maker pem user2
-#client_maker pem user3
-#client_maker der user4
