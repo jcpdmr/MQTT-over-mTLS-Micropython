@@ -3,3 +3,4 @@ wifi.conf
 certs
 mosquitto.db
 .DS_Store
+mainTask/media/*.svg
