@@ -3,7 +3,7 @@
 <details>
   <summary>Table of Contents</summary>
   <ol>
-    <li><a href="#About">About</a></li>
+    <li><a href="#about">About</a></li>
     <li>
       <a href="#getting-started">Getting Started</a>
       <ul>
@@ -12,7 +12,8 @@
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
-    <li><a href="Evaluation of possible authentication protocols">Evaluation of possible authentication protocols</a></li>
+    <li><a href="evaluation-of-possible-authentication-protocols">Evaluation of possible authentication protocols</a></li>
+    <li><a href="#extra">Extra</a></li>
   </ol>
 </details>
 
@@ -102,5 +103,6 @@ The following solutions for authentication were considered:
 
 The **username-password authentication method**, as is now well known, **presents many points of vulnerability** and has therefore been discarded in favor of more robust solutions. The use of **passkeys** appears to be one of the fastest growing trends at present due to its **strong versatility and protection effectiveness**. Unfortunately, there are currently **no implementations for micropython of such a protocol**, so a dedicated library would have to be developed. The use of a **VPN** would be another **excellent solution**, however in the case under consideration where there are **devices with scarce computational resources the use of VPN would create a potential impact on device performance**. In addition, again there is no implementation of VPN use in micropython, so it would have to be created. The use of **mTLS is a perfect authentication solution for the use case** and is also **easier to implement in micropython**. For the combination of these reasons, the choice came down to mTLS.
 
-
+## Extra
+In the folder `buttonsBoard` we designed a basic UI that utilized three buttons and the oled screen embedded on the [Heltec WiFi LoRa 32 V2](https://resource.heltec.cn/download/Manual%20Old/WiFi%20Lora32Manual.pdf)
 
