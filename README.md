@@ -8,7 +8,7 @@
       <a href="#getting-started">Getting Started</a>
       <ul>
         <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
+        <li><a href="#Configuration">Configuration</a></li>
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
@@ -28,7 +28,44 @@ This project aims to address the challenge of **security in the connection betwe
 - [mpremote](https://docs.micropython.org/en/latest/reference/mpremote.html) 
 - [Mosquitto](https://mosquitto.org/download/)
 
-### Installation
+### Configuration
+You can install mosquitto through the command: `apt-get install` mosquitto (Linux), `brew install mosquitto` (macOS) or download from the [official website](https://mosquitto.org/download/) . 
+
+We then clone the [project directory](https://github.com/jcpdmr/MQTT-over-mTLS-Micropython). First, within the MQTT-over-mTLS-Micropython-main directory we create a file called `wifi.conf`. This will contain the parameters needed to connect our device
+with an existing wifi network. 
+Inside we find:
+ -  `wifi_ssid`: Contains the name of the wifi network we are going to connect to - wifi_psw: Contains the network's login password
+- `server_ip`: Address of the device on which mosquitto is active
+- `server_port`: Reference port of mosquitto (e.g. 8883).
+
+Now let's move inside MQTT-over-mTLS-Micropython-main/mainTask/mosquitto then run mosquito with the following command: `mosquitto -v -c mosquitto.conf`
+This command will run mosquitto following the mosquito.conf configuration like:
+ - `per_listener_settings [true]`: Enables specific settings for each connected device, allowing custom configurations for each port or network interface
+- `persistence [true]`: Enables message persistence, allowing Mosquitto to store sent and received mes- sages on disk so that they can be retrieved even after a broker restart
+- `persistence_file [mosquitto.db]`: Specifies the name of the storage file where Mosquitto will save the log messages
+- `persistence_location [./]`: Specifies the directory where the log file will be created.
+- `autosave_interval [300]`: Sets the interval at which message logs will be run. In this
+case it is 300 seconds (5 minutes)
+- `retain_available [true]`: Enables the handling of "retain" messages, which are messages memo- rized and sent to new devices when they connect
+- `log_timestamp_format [%Y-%m-%d_%H:%M:%S]`: Specifies the format of the timestamp in Mosquitto logs
+- `listener [8883]`: Specifies the port (8883) for secure MQTT connections via SSL/TLS
+- `socket_domain [ipv4]`: Specifies that the listener will use the IPv4 address domain.
+- `require_certificate [true]`: Requires the presentation of a certificate during the SSL/TLS handshake phase.
+
+Now we can generate the certificates needed for communication through the bash files within the directory `MQTT-over-mTLS-Micropython-main/mainTask/mosquitto/` 
+So we run the file `ca_maker.sh` to generate the CA certificate and `client_maker.sh` for the user certificate.
+To execute the latter script it is necessary to provide:
+ - `Certificate format`: We use DER format 
+ - `User name`: For example user1
+
+After that, we have been designed `loader.sh` for loading the modules. It needs as argument the name of the user (e.g. user1) related to the certificate to be loaded, which should have been previously generated through the `client_maker.sh` script illustrated before. 
+Once the presence of the certificate is verified, the script performs the following actions:
+ - Make a copy of the selected certificate and key in the folder`MQTT-over-mTLS-Micropython-main/mainTask/micropython_data/certs/` .
+ - Through the use of mpremote:
+ - Soft-reset of the ESP.
+	 - Removing all files and directories in the ESP's memory 	(via the `reset.py` script)
+	 - Loading the certificates, configuration file, and python scripts (`main.py` and `boot.py`).
+	 - Runs the ls command on the device so you can verify that the loading was successful
 
 ## Usage
 We open the `mainTask/mosquitto/ca_maker.sh` script and change the subject_cn variable to the ip address of the host on which we are going to run the mosquitto broker.
@@ -82,7 +119,6 @@ The following solutions for authentication were considered:
 - **Mutual Transport Layer Security (mTLS)** can be used to secure communications between client and server. The main difference between TLS and mTLS lies in the fact that mTLS involves two-way identity verification during the TLS handshake. In an mTLS context, both client and server must authenticate each other before communication can take place, and this authentication process is handled through the use of digital certificates. The use of mTLS, in addition to all the positive aspects of TLS, also carries the advantage of avoiding man-in-the-middle attacks since both parties must authenticate each other. One of the possible disadvantages of this protocol lies in the issuance and management of certificates over time.
 
 The **username-password authentication method**, as is now well known, **presents many points of vulnerability** and has therefore been discarded in favor of more robust solutions. The use of **passkeys** appears to be one of the fastest growing trends at present due to its **strong versatility and protection effectiveness**. Unfortunately, there are currently **no implementations for micropython of such a protocol**, so a dedicated library would have to be developed. The use of a **VPN** would be another **excellent solution**, however in the case under consideration where there are **devices with scarce computational resources the use of VPN would create a potential impact on device performance**. In addition, again there is no implementation of VPN use in micropython, so it would have to be created. The use of **mTLS is a perfect authentication solution for the use case** and is also **easier to implement in micropython**. For the combination of these reasons, the choice came down to mTLS.
-
 
 
 
