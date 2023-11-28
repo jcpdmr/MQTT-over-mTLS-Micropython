@@ -5,6 +5,14 @@
   <ol>
     <li><a href="About">About</a></li>
     <li><a href="Evaluation of possible authentication protocols">Evaluation of possible authentication protocols</a></li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#installation">Installation</a></li>
+      </ul>
+    </li>
+    <li><a href="#usage">Usage</a></li>
   </ol>
 </details>
 
@@ -23,3 +31,65 @@ The following solutions for authentication were considered:
 - **Mutual Transport Layer Security (mTLS)** can be used to secure communications between client and server. The main difference between TLS and mTLS lies in the fact that mTLS involves two-way identity verification during the TLS handshake. In an mTLS context, both client and server must authenticate each other before communication can take place, and this authentication process is handled through the use of digital certificates. The use of mTLS, in addition to all the positive aspects of TLS, also carries the advantage of avoiding man-in-the-middle attacks since both parties must authenticate each other. One of the possible disadvantages of this protocol lies in the issuance and management of certificates over time.
 
 The **username-password authentication method**, as is now well known, **presents many points of vulnerability** and has therefore been discarded in favor of more robust solutions. The use of **passkeys** appears to be one of the fastest growing trends at present due to its **strong versatility and protection effectiveness**. Unfortunately, there are currently **no implementations for micropython of such a protocol**, so a dedicated library would have to be developed. The use of a **VPN** would be another **excellent solution**, however in the case under consideration where there are **devices with scarce computational resources the use of VPN would create a potential impact on device performance**. In addition, again there is no implementation of VPN use in micropython, so it would have to be created. The use of **mTLS is a perfect authentication solution for the use case** and is also **easier to implement in micropython**. For the combination of these reasons, the choice came down to mTLS.
+
+## Getting Started
+
+### Prerequisites
+
+- [Mycropython](https://micropython.org/download/)
+- [esptool](https://github.com/espressif/esptool/)
+- [mpremote](https://docs.micropython.org/en/latest/reference/mpremote.html) 
+- [Mosquitto](https://mosquitto.org/download/)
+
+### Installation
+
+## Usage
+We open the `mainTask/mosquitto/ca_maker.sh` script and change the subject_cn variable to the ip address of the host on which we are going to run the mosquitto broker.
+In the proposed case, the address associated with the machine is 192.168.1.22.
+Next we execute the script.
+
+<p align="center">
+  <img src="mainTask/media/ca_maker.png" width="60%"/><br>
+  test.
+</p>
+
+We run the `mainTask/mosquitto/client_maker.sh` script with `der user1` arguments in order to generate the certificate for client user1.
+
+<p align="center">
+  <img src="mainTask/media/client_maker.png" width="60%"/><br>
+  test.
+</p>
+
+We connect the esp32 (with micropython already flashed) and create the file `mainTask/micropython_data/wifi.conf` following the instructions explained earlier in the configuration.
+We then run `mainTask/loader.sh` indicating user1 as the user.
+
+<p align="center">
+  <img src="mainTask/media/loader.png" width="60%"/><br>
+  test.
+</p>
+
+We start mosquitto with the configuration `mainTask/mosquitto/mosquitto.conf`
+
+<p align="center">
+  <img src="mainTask/media/mosquitto.png" width="60%"/><br>
+  test.
+</p>
+
+We open a repl interface on the esp32 via the mpremote utility and import the main.py to perform the initialization.
+
+<p align="center">
+  <img src="mainTask/media/main.png" width="60%"/><br>
+  test.
+</p>
+
+We start the connection to the broker by running the `start_client()` function again through the repl interface.
+
+<p align="center">
+  <img src="mainTask/media/start_client.png" width="60%"/><br>
+  test.
+</p>
+
+
+
+
+
