@@ -50,8 +50,8 @@ This command will run mosquitto following the `mosquito.conf` configuration like
 - `require_certificate [true]`: Requires the presentation of a certificate during the SSL/TLS handshake phase.
 
 ## Usage
-We open the `mainTask/mosquitto/ca_maker.sh` script and change the subject_cn variable to the ip address of the host on which we are going to run the mosquitto broker.
-In the proposed case, the address associated with the machine is 192.168.1.22.
+We open the `mainTask/mosquitto/ca_maker.sh` script and change the `subject_cn` variable to the ip address of the host on which we are going to run the mosquitto broker.
+In the proposed case, the address associated with the machine is `192.168.1.22`.
 Next we execute the script.
 
 <p align="center">
@@ -59,14 +59,14 @@ Next we execute the script.
 </p>
 <br>
 
-We run the `mainTask/mosquitto/client_maker.sh` script with `der user1` arguments in order to generate the certificate for client user1.
+We run the `mainTask/mosquitto/client_maker.sh` script with `der user1` arguments in order to generate the certificate for client `user1`.
 <p align="center">
   <img src="mainTask/media/client_maker.png" width="60%"/><br>
 </p>
 <br>
 
 We connect the esp32 (with micropython already flashed) and create the file `mainTask/micropython_data/wifi.conf` following the instructions explained earlier in the configuration.
-We then run `mainTask/loader.sh` indicating user1 as the user.
+We then run `mainTask/loader.sh` indicating `user1` as the user.
 <p align="center">
   <img src="mainTask/media/loader.png" width="60%"/><br>
 </p>
@@ -78,7 +78,7 @@ We start mosquitto with the configuration `mainTask/mosquitto/mosquitto.conf`
 </p>
 <br>
 
-We open a repl interface on the esp32 via the mpremote utility and import the main.py to perform the initialization.
+We open a repl interface on the esp32 via the mpremote utility and import the `main.py` to perform the initialization.
 <p align="center">
   <img src="mainTask/media/main.png" width="60%"/><br>
 </p>
