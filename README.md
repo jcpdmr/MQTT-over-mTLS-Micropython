@@ -12,7 +12,7 @@
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
-    <li><a href="evaluation-of-possible-authentication-protocols">Evaluation of possible authentication protocols</a></li>
+    <li><a href="#evaluation-of-possible-authentication-protocols">Evaluation of possible authentication protocols</a></li>
     <li><a href="#extra">Extra</a></li>
   </ol>
 </details>
