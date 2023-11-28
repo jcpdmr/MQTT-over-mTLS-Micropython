@@ -29,9 +29,7 @@ This project aims to address the challenge of **security in the connection betwe
 - [Mosquitto](https://mosquitto.org/download/)
 
 ### Configuration
-You can install mosquitto through the command: `apt-get install` mosquitto (Linux), `brew install mosquitto` (macOS) or download from the [official website](https://mosquitto.org/download/) . 
-
-We then clone the [project directory](https://github.com/jcpdmr/MQTT-over-mTLS-Micropython). First, within the MQTT-over-mTLS-Micropython-main directory we create a file called `wifi.conf`. This will contain the parameters needed to connect our device
+Clone the [project directory](https://github.com/jcpdmr/MQTT-over-mTLS-Micropython). First, within the MQTT-over-mTLS-Micropython-main directory we create a file called `wifi.conf`. This will contain the parameters needed to connect our device
 with an existing wifi network. 
 Inside we find:
  -  `wifi_ssid`: Contains the name of the wifi network we are going to connect to - wifi_psw: Contains the network's login password
