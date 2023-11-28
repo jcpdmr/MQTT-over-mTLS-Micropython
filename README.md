@@ -50,43 +50,37 @@ Next we execute the script.
 
 <p align="center">
   <img src="mainTask/media/ca_maker.png" width="60%"/><br>
-  test.
 </p>
+<br>
 
 We run the `mainTask/mosquitto/client_maker.sh` script with `der user1` arguments in order to generate the certificate for client user1.
-
 <p align="center">
   <img src="mainTask/media/client_maker.png" width="60%"/><br>
-  test.
 </p>
+<br>
 
 We connect the esp32 (with micropython already flashed) and create the file `mainTask/micropython_data/wifi.conf` following the instructions explained earlier in the configuration.
 We then run `mainTask/loader.sh` indicating user1 as the user.
-
 <p align="center">
   <img src="mainTask/media/loader.png" width="60%"/><br>
-  test.
 </p>
+<br>
 
 We start mosquitto with the configuration `mainTask/mosquitto/mosquitto.conf`
-
 <p align="center">
   <img src="mainTask/media/mosquitto.png" width="60%"/><br>
-  test.
 </p>
+<br>
 
 We open a repl interface on the esp32 via the mpremote utility and import the main.py to perform the initialization.
-
 <p align="center">
   <img src="mainTask/media/main.png" width="60%"/><br>
-  test.
 </p>
+<br>
 
 We start the connection to the broker by running the `start_client()` function again through the repl interface.
-
 <p align="center">
   <img src="mainTask/media/start_client.png" width="60%"/><br>
-  test.
 </p>
 
 
